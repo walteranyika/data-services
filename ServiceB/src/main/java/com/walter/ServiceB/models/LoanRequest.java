@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 
 @Entity
 @Table(name = "loan_requests")
@@ -37,6 +38,7 @@ public class LoanRequest {
 
     @PrePersist
     public void setCreatedAt(){
-        createdAt = LocalDateTime.now();
+        Random r = new Random();
+        createdAt = LocalDateTime.now().minusDays(r.nextInt() % 10 + 10);
     }
 }

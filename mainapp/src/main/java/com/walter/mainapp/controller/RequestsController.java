@@ -1,21 +1,27 @@
 package com.walter.mainapp.controller;
 
 import com.walter.mainapp.dtos.LoanRequestDto;
+import com.walter.mainapp.service.DataService;
 import com.walter.mainapp.service.RequestsService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/call-center")
 public class RequestsController {
     private RequestsService requestsService;
+    private DataService dataService;
 
-    public RequestsController(RequestsService requestsService) {
+    public RequestsController(DataService dataService, RequestsService requestsService) {
+        this.dataService = dataService;
         this.requestsService = requestsService;
     }
 
@@ -25,7 +31,11 @@ public class RequestsController {
             @RequestParam int pageSize,
             @RequestParam String phone
     ){
-
-      return requestsService.search(pageNum, pageSize, phone);
+        // return requestsService.search(pageNum, pageSize, phone);
+        try {
+           return dataService.search(pageNum, pageSize, phone);
+        }catch (Exception e){
+            return new PageImpl<>(new ArrayList<>(), PageRequest.of(pageNum, pageSize), 0);
+        }
     }
 }
