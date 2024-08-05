@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class RequestsServiceImp  implements RequestsService{
     }
 
     @Override
-    public List<LoanRequestDto> search(int pageNum, int pageSize, String phone) {
+    public Page<LoanRequestDto> search(int pageNum, int pageSize, String phone) {
         List<LoanRequestDto> aggregatedList = new ArrayList<>();
 
 
@@ -72,7 +74,8 @@ public class RequestsServiceImp  implements RequestsService{
         aggregatedList.addAll(usersFromC);
 
         // Ensure the list size is exactly the requested size
-        return adjustListSize(aggregatedList, pageSize);
+        var results = adjustListSize(aggregatedList, pageSize);
+        return new PageImpl<>(results, PageRequest.of(pageNum, pageSize), totalElements);
     }
 
     private List<LoanRequestDto> fetchRequestsFromService(MainClient serviceClient, String phone, int offset, int size) {

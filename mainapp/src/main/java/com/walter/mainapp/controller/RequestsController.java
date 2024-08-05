@@ -2,6 +2,7 @@ package com.walter.mainapp.controller;
 
 import com.walter.mainapp.dtos.LoanRequestDto;
 import com.walter.mainapp.service.RequestsService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +20,7 @@ public class RequestsController {
     }
 
     @GetMapping("/search")
-    public List<LoanRequestDto> search(
+    public Page<LoanRequestDto> search(
             @RequestParam int pageNum,
             @RequestParam int pageSize,
             @RequestParam String phone
