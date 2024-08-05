@@ -62,9 +62,9 @@ public class RequestsServiceImp  implements RequestsService{
 
         // Fetch the appropriate number of items starting from the offset
         log.info("Page Sizes A {}, B {}, C {}", sizeA, sizeB, sizeC);
-        List<LoanRequestDto> usersFromA = fetchRequestsFromService(serviceAClient, phone, offset, sizeA);
-        List<LoanRequestDto> usersFromB = fetchRequestsFromService(serviceBClient, phone, offset, sizeB);
-        List<LoanRequestDto> usersFromC = fetchRequestsFromService(serviceCClient, phone, offset, sizeC);
+        List<LoanRequestDto> usersFromA = fetchRequestsFromService(serviceAClient, phone, pageNum*sizeA, sizeA);
+        List<LoanRequestDto> usersFromB = fetchRequestsFromService(serviceBClient, phone, pageNum*sizeB, sizeB);
+        List<LoanRequestDto> usersFromC = fetchRequestsFromService(serviceCClient, phone, pageNum*sizeC, sizeC);
 
         // Combine the results into a single list
         aggregatedList.addAll(usersFromA);
